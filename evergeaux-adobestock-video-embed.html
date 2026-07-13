@@ -1,0 +1,79 @@
+<!--
+  Evergeaux Travel Co — Adobe Stock Video Embed
+  ================================================
+  Paste this whole block into a Squarespace Code Block.
+
+  BEFORE PASTING: upload these 3 files to your GitHub repo
+  (Evergeauxwebsite), replacing the original 13MB version:
+    adobestock-316302402.mp4    (6.3MB, was 13MB)
+    adobestock-316302402.webm   (4.3MB)
+    adobestock-316302402-poster.jpg
+
+  Same lazy-load setup as your other video: nothing downloads
+  until it's about to scroll into view.
+-->
+
+<div class="evg-video-wrap">
+  <video
+    id="evg-adobe-video"
+    class="evg-video"
+    poster="https://cdn.jsdelivr.net/gh/brandi-225/Evergeauxwebsite@main/adobestock-316302402-poster.jpg"
+    preload="none"
+    muted
+    loop
+    playsinline
+    autoplay
+  >
+    <source data-src="https://cdn.jsdelivr.net/gh/brandi-225/Evergeauxwebsite@main/adobestock-316302402.webm" type="video/webm">
+    <source data-src="https://cdn.jsdelivr.net/gh/brandi-225/Evergeauxwebsite@main/adobestock-316302402.mp4" type="video/mp4">
+  </video>
+</div>
+
+<style>
+  .evg-video-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #16243B;
+  }
+  .evg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>
+
+<script>
+  (function () {
+    var video = document.getElementById('evg-adobe-video');
+    if (!video) return;
+
+    function loadSources() {
+      var sources = video.querySelectorAll('source[data-src]');
+      sources.forEach(function (s) {
+        s.src = s.getAttribute('data-src');
+      });
+      video.load();
+      video.play().catch(function () {});
+    }
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            loadSources();
+            observer.disconnect();
+          }
+        });
+      }, { rootMargin: '200px' });
+      observer.observe(video);
+    } else {
+      loadSources();
+    }
+  })();
+</script>
